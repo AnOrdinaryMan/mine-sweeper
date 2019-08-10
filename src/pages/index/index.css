@@ -22,6 +22,8 @@
     
     background-color: #C0C4CC;
     cursor: pointer;
+
+    font-weight: 600;
 }
 .mine-sweeper-item:hover {
     background-color: #409EFF;
@@ -33,4 +35,33 @@
 
 .mine-sweeper-item-selected:hover {
     background-color: #EBEEF5;
+}
+
+.mine-sweeper-item-boom {
+    background-color: #F56C6C;
+}
+
+.mine-sweeper-item-number-1 {
+    color: rgb(226, 172, 172);
+}
+.mine-sweeper-item-number-2 {
+    color: rgb(187, 134, 115);
+}
+.mine-sweeper-item-number-3 {
+    color: rgb(221, 203, 144);
+}
+.mine-sweeper-item-number-4 {
+    color: rgb(196, 206, 152);
+}
+.mine-sweeper-item-number-5 {
+    color: rgb(113, 173, 116);
+}
+.mine-sweeper-item-number-6 {
+    color: rgb(105, 189, 185);
+}
+.mine-sweeper-item-number-7 {
+    color: rgb(107, 122, 155);
+}
+.mine-sweeper-item-number-8 {
+    color: rgb(155, 94, 145);
 }
