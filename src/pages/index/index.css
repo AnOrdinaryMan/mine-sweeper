@@ -1,0 +1,29 @@
+.mine-sweeper {
+    width: 300px;
+    height: 300px;
+    margin: 0 auto;
+    margin-top: 100px;
+    border: 1px solid gray;
+    padding: 1px;
+}
+
+.mine-sweeper-row {
+    height: 30px;
+}
+
+.mine-sweeper-item {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    margin: 1px;
+    
+    background-color: #C0C4CC;
+    cursor: pointer;
+}
+.mine-sweeper-item:hover {
+    background-color: #409EFF;
+}
+
+.mine-sweeper-item-selected {
+    background-color: #EBEEF5;
+}
