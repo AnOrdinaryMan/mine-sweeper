@@ -194,7 +194,7 @@ class Index extends React.Component {
             });
         } else {
             if (parseInt(e.target.value) > this.state.row * this.state.column) {
-                alert('雷数不能超过格子的数量！');
+                alert('雷数不能超过格子的数量(' + (this.state.row * this.state.column) + ')！');
                 e.target.value = parseInt(e.target.value.slice(0, e.target.value.length - 1));
                 return;
             }
