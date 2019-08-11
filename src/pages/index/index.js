@@ -213,7 +213,7 @@ class Index extends React.Component {
                 this.setState({
                     table: temp
                 })
-            }, 500);
+            });
         }, 500);
     }
     onTouchEnd () {
