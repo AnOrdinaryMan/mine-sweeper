@@ -218,7 +218,7 @@ class Index extends React.Component {
         clearTimeout(this.timer);
     }
 
-    onMouseUp (row, column, e) {
+    onClick (row, column, e) {
         console.log(row, column);
         let temp = this.state.table;
 
@@ -336,7 +336,7 @@ class Index extends React.Component {
                                         : 'mine-sweeper-item'
                                     } 
                                     key={'row' + rowIndex + '-column' + columnIndex}
-                                    onMouseUp={(e) => this.onMouseUp(rowIndex, columnIndex, e)}
+                                    onMouseUp={(e) => this.onClick(rowIndex, columnIndex, e)}
                                     onTouchStart={(e) => this.onTouchStart(rowIndex, columnIndex, e)}
                                     onTouchEnd={() => this.onTouchEnd()}
                                     style={
