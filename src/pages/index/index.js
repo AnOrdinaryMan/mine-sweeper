@@ -74,7 +74,10 @@ class Index extends React.Component {
         }
 
         this.setState({
-            table: table
+            table: table,
+            flagCount: 0,
+            boomRow: -1,
+            boomColumn: -1
         }, () => { console.log(this.state.table) });
     }
 
@@ -85,11 +88,6 @@ class Index extends React.Component {
     // 重新开始
     restart = () => {
         this.init();
-        this.setState({
-            flagCount: 0,
-            boomRow: -1,
-            boomColumn: -1
-        })
     }
 
     // 修改行数
@@ -165,6 +163,23 @@ class Index extends React.Component {
         }
     }
 
+    // 判断是否胜利
+    ifWin (table) {
+        let count = 0;
+        for (let i = 0; i < table.length; i++) {
+            for (let j = 0; j < table[i].length; j++) {
+                if (table[i][j].selected) {
+                    count++;
+                }
+            }
+        }
+        if (count === this.state.row * this.state.column - this.state.mineCount) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     onMouseUp (row, column, e) {
         console.log(row, column);
         let temp = this.state.table;
@@ -210,6 +225,21 @@ class Index extends React.Component {
                         this.fastForward(row, column, temp);
                     } else { // 击中数字块
                         temp[row][column].selected = true;
+                    }
+                    // 胜利 
+                    if (this.ifWin(temp)) {
+                        for (let i = 0; i < temp.length; i++) {
+                            for (let j = 0; j < temp[i].length; j++) {
+                                temp[i][j].hasFlag = false;
+                                temp[i][j].selected = true;
+                            }
+                        }
+                        this.setState({
+                            flagCount: 0
+                        });
+                        setTimeout(() => {
+                            alert('🚩🚩🚩 Win ！！！');
+                        });
                     }
                 }
             }
