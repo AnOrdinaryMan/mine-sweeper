@@ -19,7 +19,10 @@ class Index extends React.Component {
             // 保存爆炸的地点
             boomRow: -1,
             boomColumn: -1
-        }
+        };
+
+        // 计时器，实现移动端长按事件
+        this.timer = 0;
     }
 
     init () {
@@ -180,6 +183,33 @@ class Index extends React.Component {
         }
     }
 
+    // 移动端长按标记旗子
+    onTouchStart (row, column, e) {
+        console.log(row, column);
+        let temp = this.state.table;
+        this.timer = setTimeout(() => {
+            // 若已左击过，无法标记旗子
+            if (temp[row][column].selected === false) {
+                if (temp[row][column].hasFlag) {
+                    this.setState({
+                        flagCount: this.state.flagCount - 1
+                    })
+                } else {
+                    this.setState({
+                        flagCount: this.state.flagCount + 1
+                    })
+                }
+                temp[row][column].hasFlag = !temp[row][column].hasFlag;
+            }
+            this.setState({
+                table: temp
+            })
+        }, 500);
+    }
+    onTouchEnd () {
+        clearTimeout(this.timer);
+    }
+
     onMouseUp (row, column, e) {
         console.log(row, column);
         let temp = this.state.table;
@@ -299,6 +329,8 @@ class Index extends React.Component {
                                     } 
                                     key={'row' + rowIndex + '-column' + columnIndex}
                                     onMouseUp={(e) => this.onMouseUp(rowIndex, columnIndex, e)}
+                                    onTouchStart={(e) => this.onTouchStart(rowIndex, columnIndex, e)}
+                                    onTouchEnd={() => this.onTouchEnd()}
                                     style={
                                         rowIndex === this.state.boomRow && columnIndex === this.state.boomColumn
                                         ? {backgroundColor: '#F56C6C'}
