@@ -209,9 +209,11 @@ class Index extends React.Component {
                 }
                 temp[row][column].hasFlag = !temp[row][column].hasFlag;
             }
-            this.setState({
-                table: temp
-            })
+            setTimeout(() => {
+                this.setState({
+                    table: temp
+                })
+            }, 300);
         }, 500);
     }
     onTouchEnd () {
