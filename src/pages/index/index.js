@@ -107,6 +107,10 @@ class Index extends React.Component {
                 alert('行数不能超过99！');
                 return;
             }
+            if (parseInt(e.target.value) === 0) {
+                alert('行数不能为0！');
+                return;
+            }
             if (String(parseInt(e.target.value)).length !== e.target.value.length) {
                 return;
             }
@@ -131,6 +135,10 @@ class Index extends React.Component {
         } else {
             if (parseInt(e.target.value) > 99) {
                 alert('列数不能超过99！');
+                return;
+            }
+            if (parseInt(e.target.value) === 0) {
+                alert('列数不能为0！');
                 return;
             }
             if (String(parseInt(e.target.value)).length !== e.target.value.length) {
