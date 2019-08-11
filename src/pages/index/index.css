@@ -1,8 +1,90 @@
-.mine-sweeper {
-    width: 300px;
-    height: 300px;
+.mine-sweeper-start {
     margin: 0 auto;
     margin-top: 100px;
+    margin-bottom: 10px;
+    font-size: 20px;
+    color: #606266;
+    text-align: center;
+}
+
+.mine-sweeper-start-btn {
+    display: inline-block;
+    width: 150px;
+    height: 40px;
+    line-height: 40px;
+    border: 2px solid #606266;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.mine-sweeper-flagCount {
+    margin: 0 auto;
+    text-align: center;
+    margin-bottom: 10px;
+    color: #F56C6C;
+    font-weight: 600;
+    font-size: 22px;
+}
+
+.mine-sweeper-params {
+    margin: 0 auto;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.mine-sweeper-params-item {
+    display: inline-block;
+    width: 100px;
+    font-weight: 600;
+}
+.mine-sweeper-params-item input {
+    width: 30px;
+    text-align: center;
+    vertical-align: middle;
+    border: 0;
+    font-weight: 600;
+    font-size: 16px;
+}
+.mine-sweeper-params-item input:focus {
+    outline: none;
+}
+
+.mine-sweeper-params-item-1 {
+    color: rgb(226, 172, 172);
+}
+.mine-sweeper-params-item-1 input {
+    border: 2px solid rgb(226, 172, 172);
+    color: rgb(226, 172, 172);
+}
+.mine-sweeper-params-item-1 input:focus {
+    outline: rgb(226, 172, 172) solid 3px;
+}
+
+.mine-sweeper-params-item-2 {
+    color: rgb(113, 173, 116);
+}
+.mine-sweeper-params-item-2 input {
+    border: 2px solid rgb(113, 173, 116);
+    color: rgb(113, 173, 116);
+}
+.mine-sweeper-params-item-2 input:focus {
+    outline: rgb(113, 173, 116) solid 3px;
+}
+
+.mine-sweeper-params-item-3 {
+    color: rgb(192, 87, 101);
+}
+.mine-sweeper-params-item-3 input {
+    width: 40px;
+    border: 2px solid rgb(192, 87, 101);
+    color: rgb(192, 87, 101);
+}
+.mine-sweeper-params-item-3 input:focus {
+    outline: rgb(192, 87, 101) solid 3px;
+}
+
+.mine-sweeper {
+    margin: 0 auto;
     border: 1px solid gray;
     padding: 1px;
 }
@@ -24,6 +106,7 @@
     cursor: pointer;
 
     font-weight: 600;
+    font-size: 20px;
 }
 .mine-sweeper-item:hover {
     background-color: #409EFF;

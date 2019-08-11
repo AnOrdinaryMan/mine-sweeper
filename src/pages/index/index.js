@@ -13,11 +13,16 @@ class Index extends React.Component {
             // 雷数
             mineCount: 10,
             // 表格
-            table: [[]]
+            table: [[]],
+            // 旗子数
+            flagCount: 0,
+            // 保存爆炸的地点
+            boomRow: -1,
+            boomColumn: -1
         }
     }
 
-    componentWillMount () {
+    init () {
         // 表格初始化
         let table = new Array(this.state.row).fill(null);
         table = table.map(() => new Array(this.state.column).fill(null));
@@ -73,6 +78,93 @@ class Index extends React.Component {
         }, () => { console.log(this.state.table) });
     }
 
+    componentWillMount () {
+        this.init();
+    }
+
+    // 重新开始
+    restart = () => {
+        this.init();
+        this.setState({
+            flagCount: 0,
+            boomRow: -1,
+            boomColumn: -1
+        })
+    }
+
+    // 修改行数
+    onRowChange (e) {
+        if (isNaN(parseInt(e.target.value))) {
+            this.setState({
+                row: 1,
+                mineCount: 1
+            }, () => {
+                this.init();
+            });
+        } else {
+            if (parseInt(e.target.value) > 99) {
+                alert('行数不能超过99！');
+                return;
+            }
+            if (String(parseInt(e.target.value)).length !== e.target.value.length) {
+                return;
+            }
+            this.setState({
+                row: parseInt(e.target.value),
+                mineCount: 1
+            }, () => {
+                this.init();
+            });
+        }
+    }
+
+    // 修改列数
+    onColumnChange (e) {
+        if (isNaN(parseInt(e.target.value))) {
+            this.setState({
+                column: 1,
+                mineCount: 1
+            }, () => {
+                this.init();
+            });
+        } else {
+            if (parseInt(e.target.value) > 99) {
+                alert('列数不能超过99！');
+                return;
+            }
+            if (String(parseInt(e.target.value)).length !== e.target.value.length) {
+                return;
+            }
+            this.setState({
+                column: parseInt(e.target.value),
+                mineCount: 1
+            }, () => {
+                this.init();
+            });
+        }
+    }
+
+    // 修改雷数
+    onMineCountChange (e) {
+        if (isNaN(parseInt(e.target.value))) {
+            this.setState({
+                mineCount: 1
+            }, () => {
+                this.init();
+            });
+        } else {
+            if (parseInt(e.target.value) > this.state.row * this.state.column) {
+                alert('雷数不能超过格子的数量！');
+                return;
+            }
+            this.setState({
+                mineCount: parseInt(e.target.value)
+            }, () => {
+                this.init();
+            });
+        }
+    }
+
     onMouseUp (row, column, e) {
         console.log(row, column);
         let temp = this.state.table;
@@ -80,6 +172,15 @@ class Index extends React.Component {
         if (e.button === 2) { // 右击标记旗子
             // 若已左击过，无法标记旗子
             if (temp[row][column].selected === false) {
+                if (temp[row][column].hasFlag) {
+                    this.setState({
+                        flagCount: this.state.flagCount - 1
+                    })
+                } else {
+                    this.setState({
+                        flagCount: this.state.flagCount + 1
+                    })
+                }
                 temp[row][column].hasFlag = !temp[row][column].hasFlag;
             }
         } else { // 左击
@@ -94,7 +195,15 @@ class Index extends React.Component {
                             temp[i][j].selected = true;
                         }
                     }
-                    e.target.style.backgroundColor = '#F56C6C';
+                    // 记录爆炸的地点
+                    this.setState({
+                        boomRow: row,
+                        boomColumn: column
+                    })
+
+                    setTimeout(() => {
+                        alert('💣💣💣 Boom ！！！');
+                    });
                 } else { // 未击中地雷
                     // 击中空方块，快进，以该空方快为中心快速扫雷打开一片空区域
                     if (temp[row][column].number === 0) {
@@ -127,7 +236,7 @@ class Index extends React.Component {
         }
         
         table[row][column].selected = true;
-        
+
         // 若number > 0，结束递归
         if (table[row][column].number !== 0) {
             return;
@@ -146,7 +255,7 @@ class Index extends React.Component {
     }
 
     render () {
-        let mineSweeperRow = this.state.table.map((row, rowIndex) => {
+        let mineSweeperTable = this.state.table.map((row, rowIndex) => {
             return (
                 <div className='mine-sweeper-row' key={'row' + rowIndex}>
                     {
@@ -160,6 +269,11 @@ class Index extends React.Component {
                                     } 
                                     key={'row' + rowIndex + '-column' + columnIndex}
                                     onMouseUp={(e) => this.onMouseUp(rowIndex, columnIndex, e)}
+                                    style={
+                                        rowIndex === this.state.boomRow && columnIndex === this.state.boomColumn
+                                        ? {backgroundColor: '#F56C6C'}
+                                        : null
+                                    }
                                 >
                                     {
                                         item.hasFlag ? '🚩' : null
@@ -184,8 +298,36 @@ class Index extends React.Component {
         })
 
         return (
-            <div className='mine-sweeper' onContextMenu={(e) => {e.preventDefault()}}>
-                {mineSweeperRow}
+            <div>
+                <div className='mine-sweeper-start'>
+                    <span className='mine-sweeper-start-btn' onClick={this.restart}>
+                        重新开始
+                    </span>
+                </div>
+                <div className='mine-sweeper-flagCount'>
+                    {'🚩 X ' + this.state.flagCount}
+                </div>
+                <div className='mine-sweeper-params'>
+                    <span className='mine-sweeper-params-item mine-sweeper-params-item-1'>
+                        行数：
+                        <input onChange={(e) => this.onRowChange(e)} value={this.state.row} />
+                    </span>
+                    <span className='mine-sweeper-params-item mine-sweeper-params-item-2'>
+                        列数：
+                        <input onChange={(e) => this.onColumnChange(e)} value={this.state.column} />
+                    </span>
+                    <span className='mine-sweeper-params-item mine-sweeper-params-item-3'>
+                        雷数：
+                        <input onChange={(e) => this.onMineCountChange(e)} value={this.state.mineCount} />
+                    </span>
+                </div>
+                <div 
+                    className='mine-sweeper' 
+                    onContextMenu={(e) => {e.preventDefault()}}
+                    style={{width: this.state.column * 30, height: this.state.row * 30}}
+                >
+                    {mineSweeperTable}
+                </div>
             </div>
         )
     }
