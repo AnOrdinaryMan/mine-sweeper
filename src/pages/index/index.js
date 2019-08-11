@@ -95,7 +95,10 @@ class Index extends React.Component {
 
     // 修改行数
     onRowChange (e) {
+        // 输入非数字
         if (isNaN(parseInt(e.target.value))) {
+            e.target.value = '';
+            document.getElementsByClassName('mine-sweeper-params-item-3-input')[0].value = '1';
             this.setState({
                 row: 1,
                 mineCount: 1
@@ -105,15 +108,27 @@ class Index extends React.Component {
         } else {
             if (parseInt(e.target.value) > 99) {
                 alert('行数不能超过99！');
+                e.target.value = parseInt(e.target.value.slice(0, 2));
                 return;
             }
             if (parseInt(e.target.value) === 0) {
                 alert('行数不能为0！');
+                e.target.value = '';
+                document.getElementsByClassName('mine-sweeper-params-item-3-input')[0].value = '1';
+                this.setState({
+                    row: 1,
+                    mineCount: 1
+                }, () => {
+                    this.init();
+                });
                 return;
             }
+            // 输入非数字
             if (String(parseInt(e.target.value)).length !== e.target.value.length) {
+                e.target.value = parseInt(e.target.value);
                 return;
             }
+            document.getElementsByClassName('mine-sweeper-params-item-3-input')[0].value = '1';
             this.setState({
                 row: parseInt(e.target.value),
                 mineCount: 1
@@ -125,7 +140,10 @@ class Index extends React.Component {
 
     // 修改列数
     onColumnChange (e) {
+        // 输入非数字
         if (isNaN(parseInt(e.target.value))) {
+            e.target.value = '';
+            document.getElementsByClassName('mine-sweeper-params-item-3-input')[0].value = '1';
             this.setState({
                 column: 1,
                 mineCount: 1
@@ -135,15 +153,27 @@ class Index extends React.Component {
         } else {
             if (parseInt(e.target.value) > 99) {
                 alert('列数不能超过99！');
+                e.target.value = parseInt(e.target.value.slice(0, 2));
                 return;
             }
             if (parseInt(e.target.value) === 0) {
                 alert('列数不能为0！');
+                e.target.value = '';
+                document.getElementsByClassName('mine-sweeper-params-item-3-input')[0].value = '1';
+                this.setState({
+                    row: 1,
+                    mineCount: 1
+                }, () => {
+                    this.init();
+                });
                 return;
             }
+            // 输入非数字
             if (String(parseInt(e.target.value)).length !== e.target.value.length) {
+                e.target.value = parseInt(e.target.value);
                 return;
             }
+            document.getElementsByClassName('mine-sweeper-params-item-3-input')[0].value = '1';
             this.setState({
                 column: parseInt(e.target.value),
                 mineCount: 1
@@ -156,15 +186,26 @@ class Index extends React.Component {
     // 修改雷数
     onMineCountChange (e) {
         if (isNaN(parseInt(e.target.value))) {
+            e.target.value = '';
             this.setState({
-                mineCount: 1
+                mineCount: 0
             }, () => {
                 this.init();
             });
         } else {
             if (parseInt(e.target.value) > this.state.row * this.state.column) {
                 alert('雷数不能超过格子的数量！');
+                e.target.value = parseInt(e.target.value.slice(0, e.target.value.length - 1));
                 return;
+            }
+            // 输入非数字 || 存在前导0
+            if (String(parseInt(e.target.value)).length !== e.target.value.length) {
+                if (e.target.value[0] === '0') {
+                    e.target.value = parseInt(e.target.value);
+                } else {
+                    e.target.value = parseInt(e.target.value);
+                    return;
+                }
             }
             this.setState({
                 mineCount: parseInt(e.target.value)
@@ -382,15 +423,19 @@ class Index extends React.Component {
                 <div className='mine-sweeper-params'>
                     <span className='mine-sweeper-params-item mine-sweeper-params-item-1'>
                         行数：
-                        <input onChange={(e) => this.onRowChange(e)} value={this.state.row} />
+                        <input onChange={(e) => this.onRowChange(e)} defaultValue={this.state.row} />
                     </span>
                     <span className='mine-sweeper-params-item mine-sweeper-params-item-2'>
                         列数：
-                        <input onChange={(e) => this.onColumnChange(e)} value={this.state.column} />
+                        <input onChange={(e) => this.onColumnChange(e)} defaultValue={this.state.column} />
                     </span>
                     <span className='mine-sweeper-params-item mine-sweeper-params-item-3'>
                         雷数：
-                        <input onChange={(e) => this.onMineCountChange(e)} value={this.state.mineCount} />
+                        <input 
+                            onChange={(e) => this.onMineCountChange(e)} 
+                            defaultValue={this.state.mineCount} 
+                            className='mine-sweeper-params-item-3-input'
+                        />
                     </span>
                 </div>
                 <div 
